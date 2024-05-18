@@ -1,8 +1,8 @@
 #ifndef BOFU_H
 #define BOFU_H
 
-#include <arduino.h>
-#include <cstdint>
+#include <Arduino.h>
+#include <stdint.h>
 
 /**
  * @brief Protocol Definition
