@@ -1,5 +1,7 @@
 # Bofu Blinds Controller Library
 
+[![Bofu](https://www.ardu-badge.com/badge/Bofu.svg?)](https://www.ardu-badge.com/Bofu)
+
 An arduino library to control wireless blinds.
 
 This started as a fork of the [markisol](https://github.com/akirjavainen/markisol). project. Initially the goal was simply to add a checksum implementations but ended up being mostly a re-implementation. Differences include:
