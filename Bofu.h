@@ -20,7 +20,7 @@
 #define BUFFER_SIZE 20
 
 namespace Bofu {
-  enum class Command: int16_t {
+  enum class Command: uint16_t {
     UP_SINGLE       = 0x10C0,
     UP_HOLD         = 0x00C0,
     DOWN_SINGLE     = 0x1010,
@@ -32,7 +32,7 @@ namespace Bofu {
     CHANGE_DIR_DOWN = 0x01A0
   };
 
-  enum class Channel: int8_t {
+  enum class Channel: uint8_t {
     ONE   =0x01,
     TWO   =0x02,
     THREE =0x03,

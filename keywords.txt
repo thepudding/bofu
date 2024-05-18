@@ -1,0 +1,47 @@
+#######################################
+# Syntax Coloring Map For RCSwitch
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Bofu	KEYWORD1
+Message KEYWORD1
+Transmit KEYWORD1
+Receive KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+toString KEYWORD2
+getData KEYWORD2
+getRemoteID KEYWORD2
+setRemoteID KEYWORD2
+getChannel KEYWORD2
+setChannel KEYWORD2
+getCommand KEYWORD2
+setCommand KEYWORD2
+getChecksum KEYWORD2
+recomputeChecksum KEYWORD2
+validateChecksum KEYWORD2
+calculateChecksum KEYWORD2
+setPin KEYWORD2
+setRepeat KEYWORD2
+sendMessage KEYWORD2
+setTimeout KEYWORD2
+getAGCCount KEYWORD2
+getTimings KEYWORD2
+getTimingsLength KEYWORD2
+startListening KEYWORD2
+stopListening KEYWORD2
+available KEYWORD2
+readMessage KEYWORD2
+
+#######################################
+# Structures (KEYWORD3)
+#######################################
+
+Command KEYWORD3
+Channel KEYWORD3
