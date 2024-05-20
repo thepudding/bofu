@@ -62,14 +62,14 @@ namespace Bofu {
     return static_cast<Channel>((this->data & 0x000F0000) >> 16);
   }
   void Message::setChannel(Channel channel){
-    data |= static_cast<uint8_t>(channel) << 16;
+    this->data |= static_cast<uint32_t>(channel) << 16;
   }
   Command Message::getCommand(){
     // command code is nibble 4-6
     return static_cast<Command>((this->data & 0xFFF00000) >> 16);
   }
   void Message::setCommand(Command command){
-    data |= static_cast<uint16_t>(command) << 16;
+    this->data |= static_cast<uint32_t>(command) << 16;
   }
   uint8_t Message::getChecksum(){
     return this->checksum;
@@ -114,13 +114,13 @@ namespace Bofu {
     digitalWrite(this->pin, LOW);
   }
 
-  void Transmit::send(PinStatus status, int delay) {
+  void Transmit::send(uint8_t status, int delay) {
     digitalWrite(this->pin, status);
     //PORTB = PORTB D13high; // If you wish to use faster PORTB calls instead
     delayMicroseconds(delay);
   }
 
-  void Transmit::sendBit(PinStatus bit) {
+  void Transmit::sendBit(uint8_t bit) {
     send(LOW, PULSE);
     send(HIGH, PULSE);
     send(bit, PULSE);
@@ -133,11 +133,11 @@ namespace Bofu {
     agc();
 
     for(int i = 0; i < 32; i++) {
-      sendBit(static_cast<PinStatus>((data >> i) & 1));
+      sendBit((data >> i) & 1);
     }
 
     for(int i = 0; i < 8; i++) {
-      sendBit(static_cast<PinStatus>((checksum >> i) & 1));
+      sendBit((checksum >> i) & 1);
     }
   }
 

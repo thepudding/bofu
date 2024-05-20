@@ -81,8 +81,8 @@ namespace Bofu {
       int pin;
       int repeat;
 
-      void send(PinStatus status, int delay);
-      void sendBit(PinStatus bit);
+      void send(uint8_t status, int delay);
+      void sendBit(uint8_t bit);
       void sendOnce(Message message);
       void agc();
   };
