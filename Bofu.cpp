@@ -175,43 +175,43 @@ namespace Bofu {
     return this->overflow;
   }
 
-  Receive::Receive() {
-    this->pin = -1;
-    this->timeout = 10000;
-    this->agc_count = 0;
-    this->messages = MessageBuffer();
-  }
+  int Receive::pin = -1;
+  unsigned int Receive::timeout = 10000;
+  unsigned int Receive::agc_count = 0;
+  MessageBuffer Receive::messages = MessageBuffer();
+  unsigned int Receive::timings[MESSAGE_TIMINGS_LENGTH];
+  volatile int Receive::change_count;
 
   void Receive::setPin(int pin) {
-    this->pin = pin;
+    Receive::pin = pin;
   }
 
   void Receive::setTimeout(unsigned int timeout) {
-    this->timeout = timeout;
+    Receive::timeout = timeout;
   }
 
   int Receive::getAGCCount() {
-    return this->agc_count;
+    return Receive::agc_count;
   }
 
   unsigned int * Receive::getTimings() {
-    return this->timings;
+    return Receive::timings;
   }
 
   int Receive::getTimingsLength() {
-    return this->change_count;
+    return Receive::change_count;
   }
 
   void Receive::startListening() {
-    attachInterrupt(digitalPinToInterrupt(this->pin),handleInterrupt,CHANGE,this);
+    attachInterrupt(digitalPinToInterrupt(Receive::pin),Receive::handleInterrupt,CHANGE);
   }
 
   void Receive::stopListening() {
-    detachInterrupt(digitalPinToInterrupt(this->pin));
+    detachInterrupt(digitalPinToInterrupt(Receive::pin));
   }
 
   bool Receive::available() {
-    return !this->messages.isEmpty();
+    return !Receive::messages.isEmpty();
   }
 
   Message Receive::readMessage() {
@@ -235,7 +235,7 @@ namespace Bofu {
   // Timings from https://github.com/akirjavainen/markisol
   // Interrupt must be static for pointers to work, so we must manually pass the
   // Receiver object rather than using the implicit `this`.
-  void Receive::handleInterrupt(Receive *caller) {
+  void Receive::handleInterrupt() {
     // In the first interrupt, change_count will be zero, and the duration will
     // be time - 0, so almost certainly time out.
     static unsigned int change_count = 0;
@@ -245,14 +245,14 @@ namespace Bofu {
     const unsigned int duration = time - last_time;
 
     last_time = time;
-    caller->change_count = change_count;
+    Receive::change_count = change_count;
 
     // Check Timeout
-    if(duration > caller->timeout) {
+    if(duration > Receive::timeout) {
       // If signal is high, the timeout was a low pulse. we'll check against the
       // first pulse length, so count = 1. If it's gone low, resetting to zero
       // is the default state.
-      change_count = digitalRead(caller->pin);
+      change_count = digitalRead(Receive::pin);
       return;
     }
 
@@ -278,16 +278,16 @@ namespace Bofu {
           change_count = 0;
           return;
         } else {
-          caller->agc_count++;
+          Receive::agc_count++;
         }
         break;
     }
     // Record next timing
-    caller->timings[change_count - 1] = duration;
+    Receive::timings[change_count - 1] = duration;
 
     // Check message end.
     if(change_count == MESSAGE_TIMINGS_LENGTH) {
-        caller->messages.enqueue(caller->parseTimings());
+        Receive::messages.enqueue(Receive::parseTimings());
         change_count = 0;
     } else {
       change_count++;

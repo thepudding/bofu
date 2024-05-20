@@ -103,35 +103,35 @@ namespace Bofu {
 
   class Receive {
     public:
-      Receive();
-
-      void setPin(int pin);
-      void setTimeout(unsigned int timeout);
+      static void setPin(int pin);
+      static void setTimeout(unsigned int timeout);
 
       // DEBUG
-      int getAGCCount();
-      unsigned int * getTimings();
-      int getTimingsLength();
+      static int getAGCCount();
+      static unsigned int * getTimings();
+      static int getTimingsLength();
 
-      void startListening();
-      void stopListening();
+      static void startListening();
+      static void stopListening();
 
-      bool available();
-      Message readMessage();
+      static bool available();
+      static Message readMessage();
 
     private:
-      int pin;
-      unsigned int timeout;
+      Receive() = delete;
 
-      unsigned int agc_count;
+      static int pin;
+      static unsigned int timeout;
 
-      Message parseTimings();
-      static void handleInterrupt(Receive *caller);
+      static unsigned int agc_count;
 
-      volatile int change_count;
-      unsigned int timings[MESSAGE_TIMINGS_LENGTH];
+      volatile static int change_count;
+      static unsigned int timings[MESSAGE_TIMINGS_LENGTH];
 
-      MessageBuffer messages;
+      static MessageBuffer messages;
+
+      static Message parseTimings();
+      static void handleInterrupt();
   };
 }
 #endif
