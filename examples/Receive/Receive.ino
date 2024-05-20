@@ -2,33 +2,34 @@
 
 #define DEBUG true
 
-#define RECEIVE_PIN 2 // Interrupt 0
+#define RECEIVE_PIN 29
 #define TIMEOUT 6000
 
-Bofu::Receive bofu = Bofu::Receive();
+using Receive = Bofu::Receive;
 
 void setup() {
   Serial.begin(115200); // Used for error messages even with DEBUG set to false
   if (DEBUG) Serial.println("Starting up...");
 
   if (DEBUG) Serial.println("Init Bofu...");
-  bofu.setPin(RECEIVE_PIN);
-  bofu.setTimeout(TIMEOUT);
-  bofu.startListening();
+  Receive::setPin(RECEIVE_PIN);
+  Receive::setTimeout(TIMEOUT);
+  Receive::startListening();
 }
 
 void loop()
 {
   Bofu::Message m;
 
-  if(bofu.available()) {
-    m = bofu.readMessage();
+  if(Receive::available()) {
+    m = Receive::readMessage();
     uint8_t checksum = m.getChecksum();
     uint32_t message = m.getData();
 
     Serial.println("----------------------------");
     Serial.print(  "Recieved Message: ");
     // To manually pad zeros
+    // from https://stackoverflow.com/a/62466324
     Serial.print(checksum>>4, HEX);
     Serial.print(checksum&0x0F,HEX);
     // only the last byte should contain zeros
