@@ -36,7 +36,7 @@ namespace Bofu {
     recomputeChecksum();
   }
   Message::Message(uint32_t message, uint8_t checksum) {
-    this-> data = message;
+    this->data = message;
     this->checksum = checksum;
   }
   Message::Message(uint16_t remote_id, Channel channel, Command command) {
@@ -224,7 +224,7 @@ namespace Bofu {
 
     // 32 is hardcoded message length
     for(int i = 4, j = 0; j < 32; i += 2, j++) {
-      data |= (timings[i] > PULSE + PULSE / 2) << j;
+      data |= static_cast<uint32_t>(timings[i] > PULSE + PULSE / 2) << j;
     }
     for(int i = 68, j = 0; j < 8; i += 2, j++) {
       checksum |= (timings[i] > PULSE + PULSE / 2) << j;

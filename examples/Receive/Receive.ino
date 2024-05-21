@@ -2,7 +2,7 @@
 
 #define DEBUG true
 
-#define RECEIVE_PIN 29
+#define RECEIVE_PIN 2
 #define TIMEOUT 6000
 
 using Receive = Bofu::Receive;
@@ -27,6 +27,7 @@ void loop()
     uint32_t message = m.getData();
 
     Serial.println("----------------------------");
+    Serial.println(message);
     Serial.print(  "Recieved Message: ");
     // To manually pad zeros
     // from https://stackoverflow.com/a/62466324
@@ -47,6 +48,16 @@ void loop()
       Serial.print("\tExpected: ");
       m.recomputeChecksum();
       Serial.println(m.getChecksum(), HEX);
+
+      if(DEBUG) {
+        Serial.print("Timings: [");
+        unsigned int *timings = Receive::getTimings();
+        for(int i = 0; i < MESSAGE_TIMINGS_LENGTH; i++) {
+          Serial.print(timings[i]);
+          Serial.print(", ");
+        }
+        Serial.println("]");
+      }
     }
 
     Serial.print("Channel: ");
